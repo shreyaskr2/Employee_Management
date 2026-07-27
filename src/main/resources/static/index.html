@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Employee Management System</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <header class="app-header">
+    <h1>Employee Management System</h1>
+    <p>Spring Boot &bull; MySQL &bull; REST API</p>
+  </header>
+
+  <main class="container">
+
+    <!-- Alert box for messages -->
+    <div id="alertBox" class="alert hidden"></div>
+
+    <!-- Form Card -->
+    <section class="card">
+      <h2 id="formTitle">Add New Employee</h2>
+      <form id="employeeForm">
+        <input type="hidden" id="employeeId" />
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" placeholder="e.g. John" required />
+          </div>
+
+          <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" placeholder="e.g. Doe" required />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="e.g. john.doe@company.com" required />
+          </div>
+
+          <div class="form-group">
+            <label for="department">Department</label>
+            <input type="text" id="department" placeholder="e.g. Engineering" required />
+          </div>
+
+          <div class="form-group">
+            <label for="salary">Salary</label>
+            <input type="number" id="salary" placeholder="e.g. 55000" min="0" step="0.01" required />
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" id="submitBtn" class="btn btn-primary">Add Employee</button>
+          <button type="button" id="cancelBtn" class="btn btn-secondary hidden">Cancel</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Table Card -->
+    <section class="card">
+      <div class="table-header">
+        <h2>Employees</h2>
+        <button id="refreshBtn" class="btn btn-outline">Refresh</button>
+      </div>
+
+      <div class="table-wrapper">
+        <table id="employeeTable">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Email</th>
+              <th>Department</th>
+              <th>Salary</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="employeeTableBody">
+            <!-- Rows injected by JS -->
+          </tbody>
+        </table>
+        <p id="emptyState" class="empty-state hidden">No employees found. Add one above to get started.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="app-footer">
+    <p>Running locally on <code>http://localhost:8080</code></p>
+  </footer>
+
+  <!-- Delete confirmation modal -->
+  <div id="confirmModal" class="modal hidden">
+    <div class="modal-content">
+      <h3>Delete Employee</h3>
+      <p>Are you sure you want to delete <span id="deleteEmployeeName"></span>? This action cannot be undone.</p>
+      <div class="modal-actions">
+        <button id="confirmDeleteBtn" class="btn btn-danger">Delete</button>
+        <button id="cancelDeleteBtn" class="btn btn-secondary">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
