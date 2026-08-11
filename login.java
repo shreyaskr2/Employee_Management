@@ -5,16 +5,27 @@ public class login {
         Scanner scanner = new Scanner(System.in);
         
         System.out.println("=== Employee Management System ===");
-        System.out.print("Enter username: ");
-        String username = scanner.nextLine();
+        int attempts = 3;
+        boolean loggedIn = false;
         
-        System.out.print("Enter password: ");
-        String password = scanner.nextLine();
-        
-        if (validateLogin(username, password)) {
-            System.out.println("Login successful! Welcome, " + username);
-        } else {
-            System.out.println("Invalid credentials. Please try again.");
+        while (attempts > 0 && !loggedIn) {
+            System.out.print("Enter username: ");
+            String username = scanner.nextLine();
+            
+            System.out.print("Enter password: ");
+            String password = scanner.nextLine();
+            
+            if (validateLogin(username, password)) {
+                System.out.println("Login successful! Welcome, " + username);
+                loggedIn = true;
+            } else {
+                attempts--;
+                if (attempts > 0) {
+                    System.out.println("Invalid credentials. You have " + attempts + " attempt(s) left.");
+                } else {
+                    System.out.println("Invalid credentials. No attempts left.");
+                }
+            }
         }
         
         scanner.close();
