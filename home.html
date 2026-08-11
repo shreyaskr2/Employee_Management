@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<title>Employee Management - Home</title>
+	<style>
+		body{font-family:Arial,Helvetica,sans-serif;margin:0;padding:20px;background:#f5f7fb}
+		.container{max-width:900px;margin:0 auto;background:#fff;padding:20px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+		h1{margin-top:0}
+		table{width:100%;border-collapse:collapse;margin-top:12px}
+		th,td{padding:8px 10px;border-bottom:1px solid #eee;text-align:left}
+		th{background:#f0f4fb}
+		.controls{display:flex;gap:8px;align-items:center}
+		input[type="text"]{padding:8px;border:1px solid #ccc;border-radius:4px}
+		button{padding:8px 12px;border:none;background:#2f80ed;color:#fff;border-radius:4px;cursor:pointer}
+		button.secondary{background:#e0e6ef;color:#111}
+		.empty{color:#777;padding:12px;text-align:center}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h1>Employee Management — Sample</h1>
+		<div class="controls">
+			<input id="search" type="text" placeholder="Search by name or role" />
+			<button id="addBtn">Add Sample Employee</button>
+			<button id="resetBtn" class="secondary">Reset</button>
+		</div>
+
+		<table id="employeeTable" aria-label="Employee list">
+			<thead>
+				<tr><th>Name</th><th>Role</th><th>Email</th><th>Actions</th></tr>
+			</thead>
+			<tbody id="tbody">
+				<tr class="empty"><td colspan="4">No employees. Click "Add Sample Employee" to populate.</td></tr>
+			</tbody>
+		</table>
+	</div>
+
+	<script>
+		const sample = [
+			{name:'Alice Johnson',role:'Software Engineer',email:'alice.j@example.com'},
+			{name:'Bob Lee',role:'Product Manager',email:'bob.lee@example.com'},
+			{name:'Clara Kim',role:'Designer',email:'clara.kim@example.com'}
+		];
+
+		const tbody = document.getElementById('tbody');
+		const search = document.getElementById('search');
+
+		function render(list){
+			tbody.innerHTML = '';
+			if(!list.length){
+				tbody.innerHTML = '<tr class="empty"><td colspan="4">No employees found.</td></tr>';
+				return;
+			}
+			list.forEach((e,idx)=>{
+				const tr = document.createElement('tr');
+				tr.innerHTML = `
+					<td>${e.name}</td>
+					<td>${e.role}</td>
+					<td>${e.email}</td>
+					<td><button data-idx="${idx}" class="delete">Delete</button></td>
+				`;
+				tbody.appendChild(tr);
+			});
+		}
+
+		let current = [];
+
+		document.getElementById('addBtn').addEventListener('click', ()=>{
+			current = current.concat(sample.map(s => ({...s}))); // append copies
+			render(current);
+		});
+
+		document.getElementById('resetBtn').addEventListener('click', ()=>{
+			current = [];
+			render(current);
+			search.value = '';
+		});
+
+		search.addEventListener('input', ()=>{
+			const q = search.value.trim().toLowerCase();
+			if(!q) return render(current);
+			render(current.filter(e => e.name.toLowerCase().includes(q) || e.role.toLowerCase().includes(q) || e.email.toLowerCase().includes(q)));
+		});
+
+		tbody.addEventListener('click', (ev)=>{
+			if(ev.target.matches('button.delete')){
+				const idx = Number(ev.target.dataset.idx);
+				if(!Number.isFinite(idx)) return;
+				current.splice(idx,1);
+				render(current);
+			}
+		});
+
+		// initial empty state
+		render(current);
+	</script>
+</body>
+</html>
